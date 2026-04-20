@@ -8,6 +8,7 @@
                 <t t-set="project_name" t-value="doc.name or ''"/>
                 <t t-set="order_date" t-value="doc.date_order and doc.date_order.date()"/>
                 <t t-set="scope" t-value="doc._get_subcontract_scope()"/>
+                <t t-set="client_scope" t-value="doc._get_client_supplied_scope()"/>
 
                 <div class="page" style="font-size:13px; line-height:1.45;">
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-top:6px;">
@@ -208,28 +209,31 @@
 
                     <div style="text-align:center; font-weight:800; margin-top:16px;">ARTICLE 18</div>
                     <div style="text-align:center; font-weight:800; text-decoration:underline;">OWNER SUPPLIED ITEMS</div>
-                    <p>18.1 The following material/equipment items shall be provided by PROJECT OWNER while CONTRACTOR/TRADECON shall provide labor and tools for installation and construction:</p>
-                    <ol style="margin:0 0 0 26px;">
-                        <li><strong>ARCHITECTURAL</strong>
-                            <ol type="a">
-                                <li>Exterior/Interior G.I. Sheet Wall Works</li>
-                                <li>Roof Sheet Covering with Insulation Works</li>
-                                <li>Ceramic Tile and tactile</li>
-                                <li>Laminated veneer (highlight zone)</li>
-                                <li>Cabinets and consultation partitions (entertainment area)</li>
-                                <li>Brand wall</li>
-                                <li>Lobby Counter</li>
-                                <li>Louver Blinds</li>
-                                <li>Schedule of Doors</li>
-                                <li>Aluminum Cladding</li>
-                                <li>Schedule of Windows</li>
-                                <li>Signages</li>
-                            </ol>
-                        </li>
-                        <li><strong>PLUMBING WORKS</strong></li>
-                        <li><strong>ELECTRICAL WORKS</strong></li>
-                        <li><strong>ELECTRONIC WORKS</strong></li>
-                    </ol>
+                    <p>18.1 It is agreed that the following material or equipment items shall be provided by the PROJECT OWNER but the CONTRACTOR or the TRADECON shall still provide labor services and tools and equipment for the installation and construction of such items.</p>
+                    <t t-if="client_scope.get('sections')">
+                        <ol style="margin:0 0 0 26px;">
+                            <t t-foreach="client_scope['sections']" t-as="section">
+                                <li>
+                                    <strong><t t-esc="section.get('name') or 'GENERAL'"/></strong>
+                                    <ol type="a">
+                                        <t t-foreach="section.get('subsections', [])" t-as="subsection">
+                                            <li>
+                                                <strong><t t-esc="subsection.get('name') or 'GENERAL'"/></strong>
+                                                <ul style="margin:4px 0 6px 16px; list-style-type:disc;">
+                                                    <t t-foreach="subsection.get('lines', [])" t-as="scope_line">
+                                                        <li><t t-esc="scope_line['name']"/></li>
+                                                    </t>
+                                                </ul>
+                                            </li>
+                                        </t>
+                                    </ol>
+                                </li>
+                            </t>
+                        </ol>
+                    </t>
+                    <t t-else="">
+                        <p style="margin-left:20px;">No client-supplied items were identified from the current scope lines.</p>
+                    </t>
                 </div>
 
                 <div class="page" style="font-size:13px; line-height:1.5;">
@@ -254,26 +258,94 @@
                         <li><strong>FIRE PROTECTION SYSTEM</strong></li>
                     </ol>
 
-                    <div style="margin-top:24px;">IN WITNESS WHEREOF, the parties have affixed their signatures.</div>
-                    <table style="width:100%;margin-top:45px;border-collapse:collapse;">
+                </div>
+
+                <div class="page" style="font-size:13px; line-height:1.5;">
+                    <div style="text-align:center; font-weight:800;">ARTICLE 21</div>
+                    <div style="text-align:center; font-weight:800; text-decoration:underline;">FORCE MAJEURE</div>
+                    <p>21.1 The CONTRACTOR shall promptly notify the PROJECT OWNER in writing for the occurrence of any event of Force Majeure, as used herein, the term “FORCE MAJEURE” shall mean the events attributable to the causes specified hereunder.</p>
+                    <p style="margin-left:24px;">Natural causes, such as earthquake, typhoons floods, epidemic and other phenomena affecting the Project to the extent that would make it impossible or impracticable for the CONTRACTOR to carry out, in whole or in part, his obligations under this Agreement.</p>
+                    <p>21.2 Human causes, such as war, armed invasion, revolutions, insurrections blockades, riots civil disturbances, strikes or other analogous or similar causes, including the occurrence of national banking moratorium, to the extent that would make it impossible or impracticable for the CONTRACTOR to carry out, in whole or substantially, his obligations under this Agreement. Upon the giving of such notice, the CONTRACTOR, as the date of such notice, shall be relieved from liability on liquidated damages from Article VI for the failure to carry out his obligations due to the occurrence of such event of FORCE MAJEURE.</p>
+
+                    <div style="text-align:center; font-weight:800; margin-top:18px;">ARTICLE 22</div>
+                    <div style="text-align:center; font-weight:800; text-decoration:underline;">TERMINATION OF CONTRACT</div>
+                    <p>22.1 Termination, by the PROJECT OWNER or by the CONTRACTOR or mutual termination shall be based on the guidelines of the GENERAL CONDITIONS over and above the said conditions, the PROJECT OWNER has the right to terminate the contract under the following grounds:</p>
+                    <p style="margin-left:24px;">a. Negative 15 % slippage based on the approved Construction Schedule.</p>
+                    <p style="margin-left:24px;">b. In no case that the delay in the completion of the contracted work exceed a time duration equivalent to twenty percent (20%) of the specified contract time plus any time extension duly granted to the CONTRACTOR, the PROJECT OWNER may forfeit the CONTRACTOR'S Performance Bond and takeover the execution of the project or award the same to a qualified new Contractor through negotiated contract continuance.</p>
+                    <p style="margin-left:24px;">c. The CONTRACTOR shall promptly notify the PROJECT OWNER in writing of any situations or occurrence beyond his reasonable control which makes it impossible to carry out the obligations under this Contract. Upon the confirmation in writing by the PROJECT OWNER of the existence of any such event or upon the PROJECT OWNER'S failure to respond to such notice within ten (10) days from receipt thereof, the CONTRACTOR shall be relieved from all liabilities for failure to carry out such obligations and it may thereupon terminate the Contract by transmitting a written Letter to the PROJECT OWNER within than Thirty (30) days.</p>
+                    <p style="margin-left:24px;">d. Upon receipt of either party of notice of termination of this Contract, the CONTRACTOR shall take immediate steps to bring the services to a close, in a prompt and orderly manner, and to reduce the expenditures to a minimum.</p>
+                </div>
+
+                <div class="page" style="font-size:13px; line-height:1.5;">
+                    <div style="text-align:center; font-weight:800;">ARTICLE 23</div>
+                    <div style="text-align:center; font-weight:800; text-decoration:underline;">EFFECTIVITY AND VALIDITY</div>
+                    <p>23.1 This Contract shall take effect upon date of receipt by the CONTRACTOR of Notice to Proceed from the PROJECT OWNER. The CONTRACT shall remain in force for a period of twelve (12) calendar months from the date of receipt by the CONTRACTOR of the Notice to Proceed plus another 12 calendar months after the issuance of Certificate of Acceptance as part of the work guaranty after project completion.</p>
+
+                    <div style="text-align:center; font-weight:800; margin-top:18px;">ARTICLE 24</div>
+                    <div style="text-align:center; font-weight:800; text-decoration:underline;">NOTICES AND CORRESPONDENCE</div>
+                    <p>24.1 All notices called for by the terms of this Contract shall be effective only at the time of receipt thereof and only when received by the PARTIES to whom they are addressed at the following information:</p>
+                    <p>Notice to the PROJECT OWNER: <strong><u>AUTO ARTIST, INC.</u></strong></p>
+                    <p style="margin-left:24px;">Name of Addressee : <strong><u>Dennis Tan</u></strong><br/>Address : South Road, National Highway,<br/>                  Brgy. Sicsican, Puerto Princesa City, Palawan.<br/>Mobile Phone no. :<br/>E mail address :</p>
+                    <p>Notice to the CONTRACTOR: <strong><u>TAGUSAO CONSTRUCTION AND TRADING INC.</u></strong></p>
+                    <p style="margin-left:24px;">Name of Addressee : <strong><u>ENGR. LORENZO G. TAN II</u></strong><br/>                  <em>Official Representative</em><br/>Address (1) : Rizal Ave ext. Bgy. Bancao Bancao<br/>                  Puerto Princesa City, Palawan Philippines 5300<br/>Mobile Phone no. :<br/>E mail address :</p>
+                    <p>24.2 This CONTRACT is executed and delivered in five (5) copies, each of which shall be deemed an original.</p>
+
+                    <div style="margin-top:24px;">IN WITNESS WHEREOF, the parties have hereunto affixed their signature this ____day of January 2024, Philippines.</div>
+                    <table style="width:100%; margin-top:44px; border-collapse:collapse;">
                         <tr>
-                            <td style="width:45%; padding-right:22px; vertical-align:top;">
-                                <div style="margin-top:55px; border-top:1px solid #000;"></div>
-                                <div style="font-weight:700; text-align:center; margin-top:8px;">FIRST PARTY</div>
-                                <div style="margin-top:16px;">By:</div>
-                                <div style="margin-top:30px; text-decoration:underline; font-weight:700;">DENNIS TAN</div>
-                                <div>Project Owner</div>
+                            <td style="width:45%; vertical-align:top;">
+                                <div style="font-weight:700; text-decoration:underline;">AUTO ARTIST INC.</div>
+                                <div style="font-style:italic;">PROJECT OWNER</div>
                             </td>
                             <td style="width:10%;"></td>
-                            <td style="width:45%; padding-left:22px; vertical-align:top;">
-                                <div style="margin-top:55px; border-top:1px solid #000;"></div>
-                                <div style="font-weight:700; text-align:center; margin-top:8px;">SECOND PARTY</div>
-                                <div style="margin-top:16px;">By:</div>
-                                <div style="margin-top:30px; text-decoration:underline; font-weight:700;"><t t-esc="partner_name"/></div>
-                                <div>Contractor</div>
+                            <td style="width:45%; vertical-align:top; text-align:center;">
+                                <div style="font-weight:700; text-decoration:underline;">TAGUSAO CONSTRUCTION AND TRADING INC.</div>
+                                <div style="font-style:italic;">CONTRACTOR</div>
                             </td>
                         </tr>
                     </table>
+                    <table style="width:100%; margin-top:30px; border-collapse:collapse;">
+                        <tr>
+                            <td style="width:45%; vertical-align:top;">
+                                <div>Represented by:</div>
+                                <div style="margin-top:26px; font-weight:700;">DENNIS TAN</div>
+                                <div>Owner</div>
+                            </td>
+                            <td style="width:10%;"></td>
+                            <td style="width:45%; vertical-align:top; text-align:center;">
+                                <div>Represented by:</div>
+                                <div style="margin-top:26px; font-weight:700;">ENGR. LORENZO G. TAN II</div>
+                                <div>Owner</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="text-align:center; margin-top:48px;">SIGNED IN THE PRESENCE OF:</div>
+                    <table style="width:100%; margin-top:34px; border-collapse:collapse;">
+                        <tr>
+                            <td style="width:45%;">__________________</td>
+                            <td style="width:10%;"></td>
+                            <td style="width:45%; text-align:center;">__________________</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="page" style="font-size:13px; line-height:1.6;">
+                    <div style="text-align:center; font-weight:800; letter-spacing:3px; text-decoration:underline; margin-top:12px;">ACKNOWLEDGEMENT</div>
+                    <p style="margin-top:24px;">REPUBLIC OF THE PHILIPPINES     )<br/>CITY OF PUERTO PRINCESA     ) S.S</p>
+                    <p>Before me, a Notary Public for and in Puerto Princesa City, personally appeared this ___ day of January 2024.</p>
+                    <table style="width:100%; margin-top:18px; border-collapse:collapse;">
+                        <tr>
+                            <td style="width:33%; text-decoration:underline;">NAME</td>
+                            <td style="width:34%; text-decoration:underline;">Type of Identification.</td>
+                            <td style="width:33%; text-decoration:underline;">Date/Place Issued</td>
+                        </tr>
+                        <tr><td style="padding-top:10px;">Dennis Tan</td><td>__________________</td><td>__________________</td></tr>
+                        <tr><td style="padding-top:10px;">Lorenzo G. Tan II</td><td>__________________</td><td>__________________</td></tr>
+                    </table>
+                    <p>Known to me to be the same persons who executed the foregoing CONTRACT FOR THE CONSTRUCTION OF HYUNDAI PALAWAN, consisting of fifteen (15) pages including the page on which this Acknowledgement is written, and they acknowledged to me that the same are their own free and voluntary acts and deeds as well of the corporation/juridical entities that they represent.</p>
+                    <p>IN WITNESS WHEREOF, I have hereunto set my hand and seal on the date and at the place mentioned above.</p>
+                    <div style="margin-top:34px; text-align:right;">__________________<br/>NOTARY PUBLIC</div>
+                    <p style="margin-top:26px;">Doc. No.:__________<br/>Page No.:__________<br/>Book No.:__________<br/>Series of 2024</p>
 
                     <t t-if="doc.subcontract_scope_with_lines and scope.get('sections')">
                         <div style="margin-top:38px;">

@@ -287,8 +287,8 @@ class SaleOrder(models.Model):
             'grand_total': sum(section['total'] for section in sections),
         }
 
-    def _get_subcontract_scope(self):
-        """Return subcontracted scope grouped by section/subsection."""
+    def _get_scope_by_supplier(self, supplied_by):
+        """Return scope grouped by section/subsection filtered by supplier source."""
         self.ensure_one()
 
         sections_map = {}
@@ -329,7 +329,7 @@ class SaleOrder(models.Model):
             if line.display_type:
                 continue
 
-            if getattr(line, 'x_supplied_by', False) != 'subcontracted':
+            if getattr(line, 'x_supplied_by', False) != supplied_by:
                 continue
 
             subsection = _ensure(current_section, current_subsection)
@@ -349,3 +349,11 @@ class SaleOrder(models.Model):
             'sections': sections,
             'found': bool(sections),
         }
+
+    def _get_subcontract_scope(self):
+        """Return subcontracted scope grouped by section/subsection."""
+        return self._get_scope_by_supplier('subcontracted')
+
+    def _get_client_supplied_scope(self):
+        """Return client supplied scope grouped by section/subsection."""
+        return self._get_scope_by_supplier('client')
