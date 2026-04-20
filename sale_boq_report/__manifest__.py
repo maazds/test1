@@ -1,0 +1,20 @@
+{
+    'name': 'Sale BOQ Report',
+    'version': '19.0.3.0.0',
+    'summary': 'Bill of Quantities – Summary of Costs Report for Sale Orders',
+    'category': 'Sales',
+    'author': 'Custom',
+    'depends': ['sale_management'],
+    'data': [
+        'report/sale_boq_report_template.xml',
+        'report/sale_boq_report_action.xml',
+        'report/subcontract_agreement_template.xml',
+        'report/subcontract_agreement_action.xml',
+        'report/construction_contract_template.xml',
+        'report/construction_contract_action.xml',
+        'views/subcontract_agreement_settings.xml',
+    ],
+    'installable': True,
+    'application': False,
+    'license': 'LGPL-3',
+}
