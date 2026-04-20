@@ -125,6 +125,9 @@ class SaleOrder(models.Model):
 
             else:
                 # Normal product line
+                if getattr(line, 'x_supplied_by', False) == 'client':
+                    continue
+
                 if cur_row is None:
                     # Products before any section/note
                     section_num += 1
@@ -254,6 +257,9 @@ class SaleOrder(models.Model):
                     current_subsection.setdefault('notes', []).append(line.name or '')
                 else:
                     current_section['notes'].append(line.name or '')
+                continue
+
+            if getattr(line, 'x_supplied_by', False) == 'client':
                 continue
 
             _ensure_subsection()
